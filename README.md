@@ -22,9 +22,10 @@ This is adopting the AngularJS.
 1. Installing the node.js and npm. 
 2. Proxy settings if it's necessary.
 3. Executing "nmp init".
+   $npm install grunt grunt-cli grunt-contrib-connect bower --save-dev
 4. Installing the npm package tools like Grunt, Bower and so on.
 5. Environment Path setting like below.
-   set path=.\node_modules\.bin;%path%
+   $set path=.\node_modules\.bin;%path%
 6. Executing "bower install".
 7. Executing "grunt connect" to run the web server.
 
