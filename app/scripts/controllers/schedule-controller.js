@@ -9,15 +9,8 @@ function scheduleController(scheduleService) {
     
     // Get a schedule detail with scheduleId
     vm.getSchedule = function() {
-        //var scheduleId = {scheduleId:'02a5bdbd-7441-448a-b9fd-97f58562563a'};
-        //var scheduleId = vm.scheduleId;
-        //console.log(vm.scheduleId);
         scheduleService.get({scheduleId:vm.scheduleId}).$promise.then(function(data) {
             vm.schedule = data;
-            
-            //angular.forEach(data, function (value, key) {
-            //    console.log(key + " / " + value);
-            //});
         });
         console.log(vm.schedule);
     };
