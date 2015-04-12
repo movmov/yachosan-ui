@@ -6,12 +6,15 @@ function scheduleController(scheduleService) {
 
     vm.schedule = {};
     vm.schedules = [];
+    vm.participant = {};
     
     // Get a schedule detail with scheduleId
     vm.getSchedule = function() {
         scheduleService.get({scheduleId:vm.scheduleId}).$promise.then(function(data) {
             vm.schedule = data;
         });
+        console.log("View Model after GET schedule Method");
+        console.log(vm);
         console.log(vm.schedule);
     };
 
@@ -21,6 +24,8 @@ function scheduleController(scheduleService) {
         scheduleService.query().$promise.then(function(data) {
             vm.schedules = data;
         });
+        console.log("View Model of GET ALL schedules method");
+        console.log(vm);
         console.log(vm.schedules);
     };
 
@@ -36,6 +41,7 @@ function scheduleController(scheduleService) {
         scheduleService.save({},scheduleData).$promise.then(function(data) {
           vm.schedule = data;
         });
+        console.log("View Model of POST new schedule method");
         console.log(vm.schedule);
      };
     
@@ -45,5 +51,44 @@ function scheduleController(scheduleService) {
         scheduleService.remove({scheduleId:schedule.scheduleId}).$promise.then(function(data) {
             vm.schedules.splice(vm.schedules.indexOf(schedule), 1);
         });
+     };
+    
+    // Participate the event
+    vm.newParticipant = function() {
+        
+        console.log(vm);
+        scheduleService.newParticipant({scheduleId:vm.schedule.scheduleId},vm.participant).$promise.then(function(data) {
+            console.log("Return Value of POST Participant");
+            console.log(data);
+        });
+        
+        // スケジュールをアップデートさせるため再度取得
+        // ToDo View側でリアルタイムにテーブル情報が反映されない
+        // 処理が重ければ、参加者追加の中でvm.scheduleのParticipants配列にオブジェクト追加
+        scheduleService.get({scheduleId:vm.schedule.scheduleId}).$promise.then(function(data) {
+            vm.schedule = data;
+        });
+        console.log("View Model after POST Participant method");
+        console.log(vm);
+     };
+    
+    // Cancel the event
+    vm.removeParticipant = function(participant) {
+        
+        console.log(vm);
+        
+        scheduleService.removeParticipant({scheduleId:vm.schedule.scheduleId,nickname:participant.nickname}).$promise.then(function(data) {
+            console.log("Return Value of DELETE Participant");
+            console.log(data);
+        });
+        
+        // スケジュールをアップデートさせるため再度取得
+        // ToDo View側でリアルタイムにテーブル情報が反映されない
+        // 処理が重ければ、参加者追加の中でvm.scheduleのParticipants配列にオブジェクト追加
+        scheduleService.get({scheduleId:vm.schedule.scheduleId}).$promise.then(function(data) {
+            vm.schedule = data;
+        });
+        console.log("View Model after DELETE Participant method");
+        console.log(vm);
      };
 }
